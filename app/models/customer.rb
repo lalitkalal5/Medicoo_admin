@@ -1,7 +1,7 @@
 class Customer < ApplicationRecord
   belongs_to :groq_key, optional: true
   has_many :activation_logs, dependent: :destroy
-  has_many :owned_groq_keys, class_name: "GroqKey", foreign_key: :assigned_to_customer_id, dependent: :nullify
+  has_many :owned_groq_keys, class_name: "GroqKey", foreign_key: :assigned_customer_id, dependent: :nullify
 
   enum :plan_type, { monthly: "monthly", yearly: "yearly", custom: "custom" }, validate: true
   enum :status, { active: "active", expired: "expired", suspended: "suspended" }, validate: true

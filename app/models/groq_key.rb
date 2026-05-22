@@ -1,12 +1,12 @@
 class GroqKey < ApplicationRecord
   encrypts :api_key
 
-  belongs_to :assigned_customer, class_name: "Customer", optional: true, foreign_key: :assigned_to_customer_id
+  belongs_to :assigned_customer, class_name: "Customer", optional: true, foreign_key: :assigned_customer_id
   has_many :activation_logs, dependent: :nullify
 
   validates :api_key, presence: true
 
-  scope :available, -> { where(is_assigned: false, assigned_to_customer_id: nil) }
+  scope :available, -> { where(is_assigned: false, assigned_customer_id: nil) }
   scope :assigned, -> { where(is_assigned: true) }
 
   def masked_api_key
