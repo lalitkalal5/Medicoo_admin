@@ -36,4 +36,4 @@ services:
 databases:
   - name: medicoo-admin-db
     plan: free
-    
+    region: oregon
