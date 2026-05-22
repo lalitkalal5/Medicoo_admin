@@ -8,7 +8,7 @@ class CreateCustomers < ActiveRecord::Migration[7.1]
       t.string :phone_number, null: false
       t.text :address
       t.string :device_identifier
-      t.references :groq_key, foreign_key: true
+      t.references :groq_key
       t.string :plan_type, null: false, default: "monthly"
       t.date :subscription_start_date, null: false
       t.date :subscription_expiry_date, null: false

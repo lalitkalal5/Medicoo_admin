@@ -10,5 +10,7 @@ class CreateGroqKeys < ActiveRecord::Migration[7.1]
     end
 
     add_index :groq_keys, :is_assigned
+    
+    add_foreign_key :customers, :groq_keys
   end
 end
