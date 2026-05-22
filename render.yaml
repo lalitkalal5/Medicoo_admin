@@ -12,6 +12,8 @@ services:
         value: production
       - key: RAILS_SERVE_STATIC_FILES
         value: "true"
+      - key: RAILS_MASTER_KEY
+        sync: false
       - key: APP_HOST
         sync: false
       - key: DATABASE_URL
@@ -25,15 +27,16 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
-        sync: false
+        generateValue: true
       - key: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
-        sync: false
+        generateValue: true
       - key: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
-        sync: false
+        generateValue: true
       - key: LICENSE_RESPONSE_SECRET
-        sync: false
+        generateValue: true
 
 databases:
   - name: medicoo-admin-db
     plan: free
     region: oregon
+
