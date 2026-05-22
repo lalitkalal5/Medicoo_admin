@@ -1,0 +1,24 @@
+<div class="topbar">
+  <div>
+    <h2>Groq Keys</h2>
+    <p class="muted">Manage the encrypted key pool and see who each key is assigned to.</p>
+  </div>
+  <%= link_to "Add Groq Key", new_admin_groq_key_path, class: "button" %>
+</div>
+
+<div class="panel">
+  <table class="table">
+    <thead><tr><th>Key</th><th>Status</th><th>Assigned To</th><th>Assigned At</th><th></th></tr></thead>
+    <tbody>
+      <% @groq_keys.each do |key| %>
+        <tr>
+          <td><code><%= key.masked_api_key %></code></td>
+          <td><%= key.is_assigned? ? "Assigned" : "Available" %></td>
+          <td><%= key.assigned_customer ? link_to(key.assigned_customer.full_name, admin_customer_path(key.assigned_customer)) : "-" %></td>
+          <td><%= key.assigned_at || "-" %></td>
+          <td><%= link_to "View", admin_groq_key_path(key) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

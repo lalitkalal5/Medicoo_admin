@@ -1,0 +1,42 @@
+<%= form_with model: [:admin, customer] do |form| %>
+  <% if customer.errors.any? %>
+    <div class="flash alert">
+      <%= customer.errors.full_messages.join(", ") %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-2">
+    <div class="panel">
+      <div class="form-row">
+        <div style="flex:1;"><%= form.label :full_name %><%= form.text_field :full_name, required: true %></div>
+        <div style="flex:1;"><%= form.label :business_name %><%= form.text_field :business_name %></div>
+      </div>
+      <div class="form-row">
+        <div style="flex:1;"><%= form.label :email %><%= form.email_field :email, required: true %></div>
+        <div style="flex:1;"><%= form.label :phone_number %><%= form.text_field :phone_number, required: true %></div>
+      </div>
+      <div><%= form.label :address %><%= form.text_area :address %></div>
+      <div><%= form.label :device_identifier %><%= form.text_field :device_identifier %></div>
+    </div>
+
+    <div class="panel">
+      <div class="form-row">
+        <div style="flex:1;"><%= form.label :plan_type %><%= form.select :plan_type, Customer.plan_types.keys.map { |v| [v.titleize, v] } %></div>
+        <div style="flex:1;"><%= form.label :status %><%= form.select :status, Customer.statuses.keys.map { |v| [v.titleize, v] } %></div>
+      </div>
+      <div class="form-row">
+        <div style="flex:1;"><%= form.label :subscription_start_date %><%= form.date_field :subscription_start_date, required: true %></div>
+        <div style="flex:1;"><%= form.label :subscription_expiry_date %><%= form.date_field :subscription_expiry_date, required: true %></div>
+      </div>
+      <div><%= form.label :notes %><%= form.text_area :notes %></div>
+      <% if customer.new_record? %>
+        <label><input type="checkbox" name="auto_assign_key" value="1" checked> Auto-assign available Groq key</label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="actions" style="margin-top: 20px;">
+    <%= form.submit class: "button" %>
+    <%= link_to "Back", admin_customers_path, class: "button button-secondary" %>
+  </div>
+<% end %>

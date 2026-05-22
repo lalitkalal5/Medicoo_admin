@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: medicoo-admin
+    env: ruby
+    plan: free
+    buildCommand: bundle install && bundle exec rails db:migrate
+    startCommand: bundle exec puma -C config/puma.rb
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: APP_HOST
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: medicoo-admin-db
+          property: connectionString
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+        sync: false
+      - key: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+        sync: false
+      - key: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+        sync: false
+      - key: LICENSE_RESPONSE_SECRET
+        sync: false
+
+databases:
+  - name: medicoo-admin-db
+    plan: free

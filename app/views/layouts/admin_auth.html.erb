@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Login</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #1c1917, #9a3412); font-family: Georgia, "Times New Roman", serif; }
+      .card { width: min(440px, 92vw); background: rgba(255,255,255,0.96); border-radius: 24px; padding: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+      h1 { margin-top: 0; }
+      .field { margin-bottom: 14px; }
+      input, button { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #d6d3d1; font: inherit; }
+      button { background: #c2410c; color: white; border: none; cursor: pointer; }
+      .alert { color: #b91c1c; margin-bottom: 12px; }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

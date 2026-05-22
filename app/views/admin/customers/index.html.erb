@@ -1,0 +1,46 @@
+<div class="topbar">
+  <div>
+    <h2>Customers</h2>
+    <p class="muted">Search by name, license key, or phone number.</p>
+  </div>
+  <%= link_to "Add Customer", new_admin_customer_path, class: "button" %>
+</div>
+
+<div class="panel">
+  <%= form_with url: admin_customers_path, method: :get, local: true do |form| %>
+    <div class="actions">
+      <%= form.text_field :query, value: params[:query], placeholder: "Search customers..." %>
+      <%= form.select :status, options_for_select([["All statuses", ""], ["Active", "active"], ["Expired", "expired"], ["Suspended", "suspended"]], params[:status]) %>
+      <%= form.submit "Filter", class: "button" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="panel" style="margin-top: 20px;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Business</th>
+        <th>Phone</th>
+        <th>License Key</th>
+        <th>Status</th>
+        <th>Expiry</th>
+        <th>Plan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= link_to customer.full_name, admin_customer_path(customer) %></td>
+          <td><%= customer.business_name.presence || "-" %></td>
+          <td><%= customer.phone_number %></td>
+          <td><code><%= customer.license_key %></code></td>
+          <td><span class="<%= status_badge_class(customer.status) %>"><%= customer.status %></span></td>
+          <td><%= customer.subscription_expiry_date %></td>
+          <td><%= customer.plan_type %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

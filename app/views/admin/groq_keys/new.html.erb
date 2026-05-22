@@ -1,0 +1,13 @@
+<div class="topbar"><div><h2>Add Groq Key</h2><p class="muted">Keys are stored encrypted in PostgreSQL using Rails encryption.</p></div></div>
+<div class="panel">
+  <%= form_with model: [:admin, @groq_key] do |form| %>
+    <% if @groq_key.errors.any? %>
+      <div class="flash alert"><%= @groq_key.errors.full_messages.join(", ") %></div>
+    <% end %>
+    <div><%= form.label :api_key, "Groq API Key" %><%= form.text_field :api_key, required: true %></div>
+    <div class="actions" style="margin-top: 20px;">
+      <%= form.submit "Save Key", class: "button" %>
+      <%= link_to "Back", admin_groq_keys_path, class: "button button-secondary" %>
+    </div>
+  <% end %>
+</div>

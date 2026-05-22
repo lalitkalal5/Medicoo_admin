@@ -1,0 +1,32 @@
+<div class="topbar">
+  <div>
+    <h2>Groq Key Details</h2>
+    <p class="muted">Masked by default. You can still reassign it from here.</p>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="panel">
+    <div class="detail-list">
+      <strong>Masked Key</strong>
+      <div>
+        <code><%= @groq_key.masked_api_key %></code>
+        <details>
+          <summary>Reveal key</summary>
+          <code><%= @groq_key.api_key %></code>
+        </details>
+      </div>
+      <strong>Assigned</strong><div><%= @groq_key.is_assigned? ? "Yes" : "No" %></div>
+      <strong>Assigned To</strong><div><%= @groq_key.assigned_customer&.full_name || "-" %></div>
+      <strong>Assigned At</strong><div><%= @groq_key.assigned_at || "-" %></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Reassign Key</h3>
+    <%= form_with url: reassign_admin_groq_key_path(@groq_key), method: :patch do |form| %>
+      <div><%= form.label :customer_id, "Assign To Customer" %><%= form.select :customer_id, Customer.order(:full_name).map { |customer| [customer.full_name, customer.id] } %></div>
+      <div class="actions" style="margin-top: 20px;"><%= form.submit "Reassign", class: "button" %></div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="topbar">
+  <div>
+    <h2><%= @customer.full_name %></h2>
+    <p class="muted"><%= @customer.business_name.presence || "No business name" %></p>
+  </div>
+  <div class="actions">
+    <%= link_to "Edit", edit_admin_customer_path(@customer), class: "button button-secondary" %>
+    <%= button_to (@customer.active? ? "Suspend" : "Reactivate"), toggle_status_admin_customer_path(@customer), method: :patch, class: "button" %>
+    <%= button_to "Assign New Groq Key", assign_new_key_admin_customer_path(@customer), method: :post, class: "button" %>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="panel">
+    <h3>Customer Details</h3>
+    <div class="detail-list">
+      <strong>License Key</strong><div><code><%= @customer.license_key %></code></div>
+      <strong>Status</strong><div><span class="<%= status_badge_class(@customer.status) %>"><%= @customer.status %></span></div>
+      <strong>Email</strong><div><%= @customer.email %></div>
+      <strong>Phone</strong><div><%= @customer.phone_number %></div>
+      <strong>Address</strong><div><%= @customer.address.presence || "-" %></div>
+      <strong>Device ID</strong><div><code><%= @customer.device_identifier.presence || "Not registered" %></code></div>
+      <strong>Plan</strong><div><%= @customer.plan_type %></div>
+      <strong>Starts</strong><div><%= @customer.subscription_start_date %></div>
+      <strong>Expires</strong><div><%= @customer.subscription_expiry_date %> (<%= @customer.days_until_expiry %> days left)</div>
+      <strong>Assigned Key</strong>
+      <div>
+        <%= @customer.groq_key&.masked_api_key || "No key assigned" %>
+        <% if @customer.groq_key.present? %>
+          <details>
+            <summary>Reveal key</summary>
+            <code><%= @customer.groq_key.api_key %></code>
+          </details>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Notes & Actions</h3>
+    <p><%= simple_format(@customer.notes.presence || "No notes yet.") %></p>
+    <%= form_with url: extend_subscription_admin_customer_path(@customer), method: :patch do |form| %>
+      <div class="actions">
+        <%= form.number_field :days, value: 30, min: 1 %>
+        <%= form.submit "Extend Subscription", class: "button" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="panel" style="margin-top: 20px;">
+  <h3>Activation Log</h3>
+  <table class="table">
+    <thead><tr><th>Action</th><th>Device</th><th>IP</th><th>When</th></tr></thead>
+    <tbody>
+      <% @activation_logs.each do |log| %>
+        <tr>
+          <td><%= log.action %></td>
+          <td><code><%= log.device_identifier %></code></td>
+          <td><%= log.ip_address.presence || "-" %></td>
+          <td><%= l(log.activated_at, format: :short) rescue log.activated_at %></td>
+        </tr>
+      <% end %>
+      <% if @activation_logs.empty? %>
+        <tr><td colspan="4">No activation history yet.</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

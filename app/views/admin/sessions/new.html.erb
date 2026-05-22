@@ -1,0 +1,18 @@
+<div class="card">
+  <h1>Admin Sign In</h1>
+  <p>Use your Render environment credentials to access the dashboard.</p>
+  <% if flash.now[:alert] %>
+    <div class="alert"><%= flash.now[:alert] %></div>
+  <% end %>
+  <%= form_with url: "/login", method: :post do |form| %>
+    <div class="field">
+      <%= form.label :username %>
+      <%= form.text_field :username, required: true %>
+    </div>
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.password_field :password, required: true %>
+    </div>
+    <%= form.submit "Sign In" %>
+  <% end %>
+</div>

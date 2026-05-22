@@ -1,0 +1,50 @@
+<div class="topbar">
+  <div>
+    <h2>Overview</h2>
+    <p class="muted">Quick pulse of subscriptions, key inventory, and recent activations.</p>
+  </div>
+</div>
+
+<div class="grid grid-4">
+  <div class="panel"><div class="muted">Total Customers</div><div class="metric"><%= @total_customers %></div></div>
+  <div class="panel"><div class="muted">Active Subscriptions</div><div class="metric"><%= @active_customers %></div></div>
+  <div class="panel"><div class="muted">Expired / Past Due</div><div class="metric"><%= @expired_customers %></div></div>
+  <div class="panel"><div class="muted">Groq Keys Assigned</div><div class="metric"><%= @groq_assigned %> / <%= @groq_total %></div></div>
+</div>
+
+<div class="grid grid-2" style="margin-top: 20px;">
+  <div class="panel">
+    <h3>Expiring In 7 Days</h3>
+    <table class="table">
+      <thead><tr><th>Customer</th><th>Status</th><th>Expiry</th></tr></thead>
+      <tbody>
+        <% @expiring_customers.each do |customer| %>
+          <tr>
+            <td><%= link_to customer.full_name, admin_customer_path(customer) %></td>
+            <td><span class="<%= status_badge_class(customer.status) %>"><%= customer.status %></span></td>
+            <td><%= customer.subscription_expiry_date %></td>
+          </tr>
+        <% end %>
+        <% if @expiring_customers.empty? %>
+          <tr><td colspan="3">No customers are expiring in the next 7 days.</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>Recent Activations</h3>
+    <table class="table">
+      <thead><tr><th>Customer</th><th>Action</th><th>When</th></tr></thead>
+      <tbody>
+        <% @recent_activations.each do |log| %>
+          <tr>
+            <td><%= link_to log.customer.full_name, admin_customer_path(log.customer) %></td>
+            <td><%= log.action %></td>
+            <td><%= l(log.activated_at, format: :short) rescue log.activated_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
