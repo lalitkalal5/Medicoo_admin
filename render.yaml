@@ -3,8 +3,10 @@ services:
     name: medicoo-admin
     env: ruby
     plan: free
-    buildCommand: bundle install && bundle exec rails db:migrate
-    startCommand: bundle exec puma -C config/puma.rb
+    # Updated: This compiles your CSS/JS assets during build
+    buildCommand: bundle install; bundle exec rails assets:precompile; bundle exec rails assets:clean
+    # Updated: This safely runs migrations right before booting up the server
+    startCommand: bundle exec rails db:migrate; bundle exec puma -C config/puma.rb
     envVars:
       - key: RAILS_ENV
         value: production
@@ -34,3 +36,4 @@ services:
 databases:
   - name: medicoo-admin-db
     plan: free
+    
